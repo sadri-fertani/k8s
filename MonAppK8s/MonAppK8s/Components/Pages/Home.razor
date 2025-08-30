@@ -1,0 +1,87 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+@using MonAppK8s.Payloads
+@using MonAppK8s.Services
+
+@inject IMonApi MonApi
+@inject IMonApi2 MonApi2
+@inject IRedisService RedisService
+
+<PageTitle>Accueil</PageTitle>
+
+<h3>Variables</h3>
+
+@if (items == null)
+{
+    <p><em>Chargement...</em></p>
+}
+else
+{
+    <p>Api #1</p>
+    <ul>
+        <li>@nameof(@items.APP_UID) : @items.APP_UID</li>
+        <li>@nameof(@items.VERSION) : @items.VERSION</li>
+        <li>@nameof(@items.ENVIRONMENT) : @items.ENVIRONMENT</li>
+        <li>@nameof(@items.HOSTNAME) : @items.HOSTNAME</li>
+        <li>@nameof(@items.applicationName) : @items.applicationName</li>
+    </ul>
+}
+
+<br />
+
+@if (items2 == null)
+{
+    <p><em>Chargement...</em></p>
+}
+else
+{
+    <p>Api #2</p>
+    <ul>
+        <li>@nameof(@items2.APP_UID) : @items2.APP_UID</li>
+        <li>@nameof(@items2.HOME) : @items2.HOME</li>
+        <li>@nameof(@items2.HOSTNAME) : @items2.HOSTNAME</li>
+        <li>@nameof(@items2.applicationName) : @items2.applicationName</li>
+    </ul>
+}
+
+
+<h3>Check Redis</h3>
+
+<p role="status">Last check: @retrievedValue</p>
+<button class="btn btn-primary" @onclick="VerifAsync">Check</button>
+
+@code {
+    private MonApiPayload? items = default;
+    private MonApiPayload? items2 = default;
+
+    private string inputValue = "";
+    private string? retrievedValue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await Task.Delay(500); // Simulate a short delay for loading effect
+            items = await MonApi.GetItemsAsync();
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            await Task.Delay(500); // Simulate a short delay for loading effect
+            items2 = await MonApi2.GetItemsAsync();
+        }
+        catch
+        {
+        }        
+    }
+
+    private async Task VerifAsync()
+    {
+        retrievedValue = await RedisService.GetValueAsync("ma-cle");
+        await RedisService.SetValueAsync("ma-cle", DateTime.Now.ToString());
+    }
+}

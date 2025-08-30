@@ -1,0 +1,31 @@
+replicaCount: 1
+
+namespace: api-space
+
+image:
+  repository: sadrifertani/monapi
+  tag: latest
+  pullPolicy: Always
+
+containerPort: 8080
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+#  nodePort: 30081 //only use for a public use outside of cluster
+
+ingress:
+  enabled: false
+  
+env:
+  - name: "ASPNETCORE_ENVIRONMENT"
+    value: "Production"
+  - name: "Azure__ClientId"
+    value: "a.client.id"
+  - name: "Azure__ClientSecret"
+    value: "a.client.secret"
+  - name: "Azure__ClientTenantId"
+    value: "a.tenant.id"
+
+resources: {}

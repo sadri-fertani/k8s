@@ -1,0 +1,31 @@
+replicaCount: 1
+
+namespace: app-space
+
+image:
+  repository: sadrifertani/monapp
+  tag: latest
+  pullPolicy: Always
+
+containerPort: 8090
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 8090
+  nodePort: 30090
+
+ingress:
+  enabled: false
+  
+env:
+  - name: "ASPNETCORE_ENVIRONMENT"
+    value: "Production"
+  - name: "API_URL"
+    value: "http://monapi-service.default.svc.cluster.local"
+  - name: "API2_URL"
+    value: "http://monapi2-service.api-space.svc.cluster.local:80"
+  - name: "REDIS_URL"
+    value: "redis.default.svc.cluster.local:6379"
+
+resources: {}

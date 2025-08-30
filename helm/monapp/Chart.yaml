@@ -1,0 +1,7 @@
+apiVersion: v2
+name: monapp
+icon: file://assets/icon.png
+description: Déploiement de l'APP WEB .NET 8 avec Helm
+type: application
+version: 0.1.0
+appVersion: "1.0"
