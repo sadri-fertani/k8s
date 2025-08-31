@@ -1,5 +1,7 @@
 replicaCount: 1
 
+namespace: api-space
+
 image:
   repository: sadrifertani/monapi
   tag: latest

@@ -22,9 +22,9 @@ env:
   - name: "ASPNETCORE_ENVIRONMENT"
     value: "Production"
   - name: "API_URL"
-    value: "http://monapi-service.default.svc.cluster.local"
+    value: "http://monapi-service.api-space.svc.cluster.local"
   - name: "API2_URL"
-    value: "http://monapi2-service.api-space.svc.cluster.local:80"
+    value: "http://monapi2-service.api-space.svc.cluster.local"
   - name: "REDIS_URL"
     value: "redis.default.svc.cluster.local:6379"
 

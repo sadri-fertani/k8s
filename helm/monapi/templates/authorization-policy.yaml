@@ -1,7 +1,7 @@
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
-  name: allow-from-app-space-2
+  name: allow-from-app-space
   namespace: {{ .Values.namespace }}
 spec:
   action: ALLOW

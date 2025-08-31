@@ -70,3 +70,46 @@ kubectl get authorizationpolicy -A
 helm upgrade monapi2 ./helm/monapi2
 kubectl rollout restart deployment monapi2-deployment -n api-space
 kubectl rollout restart deployment monapp-deployment -n app-space
+
+# Definir label pour les namesapce
+kubectl get namespace default --show-labels
+
+kubectl label namespace api-space name=api-space      
+kubectl label namespace app-space name=app-space      
+kubectl label namespace istio-system name=istio-system
+kubectl label namespace kube-system name=kube-system 
+
+
+kubectl apply -f .\helm\monapp\templates\AuthorizationPolicy.yaml
+
+kubectl get svc monapp-service -n app-space -o yaml
+
+# Debug
+kubectl apply -f net-debug.yaml
+kubectl exec -it net-debug -n app-space -c tools -- sh
+
+
+helm install monapi ./helm/monapi --namespace api-space
+
+# Remarque
+creation du namespace manuellement pour eviter le conflit du proprietaire avec helm
+```
+kubectl create namespace api-space
+kubectl label namespace api-space istio-injection=enabled
+
+kubectl create namespace api-space --dry-run=client -o yaml | kubectl label -f - istio-injection=enabled
+```
+
+kubectl delete pod <nom-du-pod> -n api-space
+
+
+kubectl label namespace api-space istio-injection-
+kubectl label namespace api-space istio.io/rev=default
+
+log istio
+```
+kubectl logs -n istio-system -l app=istiod --tail=100
+```
+
+run simple 
+kubectl run istio-test-manual --image=nginx --restart=Never -n api-space
