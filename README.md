@@ -144,20 +144,10 @@ kubectl logs <nom-du-pod>
 - 📦 Automatiser avec GitHub Actions
 ```
 
----
-
-Tu veux que je te prépare directement une version Helm pour ce projet ? Ou que je transforme tout ça en une page prête à copier-coller dans Notion ? 😄
-
-
-Absolutely, Sadri! Let's turn your .NET 8 app into a deployable Helm chart 🪖
-
----
-
 ## 📦 Structure du Helm Chart
 
 Crée un dossier `helm/monapi` avec cette structure :
 
-```
 helm/
 └── monapi/
     ├── Chart.yaml
@@ -166,8 +156,6 @@ helm/
         ├── deployment.yaml
         └── service.yaml
 ```
-
----
 
 ## 🧾 `Chart.yaml`
 
@@ -270,14 +258,9 @@ helm uninstall monapi
 ```
 
 ---
-
-Si tu veux que je t’aide à ajouter des probes, des secrets, des ingress ou un `values-production.yaml`, je suis chaud pour t’embarquer dans une version “real world” 😎
-
-
 To add **health checks** to your Helm chart for the .NET 8 app, you'll need to configure Kubernetes **liveness** and **readiness probes**. These help the cluster know when your app is healthy and ready to serve traffic 🚦
 
 Let’s update the `deployment.yaml` inside your Helm chart’s `templates/` folder:
-
 ---
 
 ## 🩺 Add Probes to `deployment.yaml`
@@ -343,13 +326,8 @@ livenessProbe:
 Then use Helm templating to wire them in.
 
 ---
-
-Want me to update the full `deployment.yaml` template with all that embedded logic and Helm variables? I can also add `values-production.yaml` if you’re deploying to real clusters 📦
-
-
-
-You can customize health checks per environment by templating them in your Helm chart’s `values.yaml` file and dynamically inserting those values into your `deployment.yaml`. This gives you fine-grained control so dev, staging, and prod can each behave differently 💡
-
+Customize health checks per environment by templating them in your Helm chart’s `values.yaml` file and dynamically inserting those values into your `deployment.yaml`. 
+This gives you fine-grained control so dev, staging, and prod can each behave differently 💡
 ---
 
 ## 🗂️ Step 1: Define probe config in `values.yaml`
@@ -422,51 +400,6 @@ docker tag monapi localhost:5000/monapi
 docker push localhost:5000/monapi
 ```
 
-
-```
-Parfait Sadri 👌 ! Voici comment adapter ton fichier de déploiement Kubernetes pour utiliser ton image privée stockée dans un registre local (comme celui que tu as lancé sur `localhost:5000`) :
-
----
-
-### 🛠️ Étapes à suivre
-
-1. **Tague ton image et pousse-la dans ton registre local**
-   ```bash
-   docker tag monapi localhost:5000/monapi
-   docker push localhost:5000/monapi
-   ```
-
-2. **Modifie ton YAML de déploiement**
-   Remplace `image: monapi:latest` par l’image stockée dans ton registre :
-   ```yaml
-   image: localhost:5000/monapi
-   ```
-
-   Ton fichier corrigé devient :
-   ```yaml
-   apiVersion: apps/v1
-   kind: Deployment
-   metadata:
-     name: monapi-deployment
-   spec:
-     replicas: 1
-     selector:
-       matchLabels:
-         app: monapi
-     template:
-       metadata:
-         labels:
-           app: monapi
-       spec:
-         containers:
-         - name: monapi
-           image: localhost:5000/monapi
-           ports:
-           - containerPort: 80
-   ```
-
----
-
 ### ⚠️ Si tu utilises Minikube ou kind...
 
 Ton registre local `localhost:5000` ne sera pas accessible depuis les nodes du cluster par défaut. Deux solutions :
@@ -480,12 +413,6 @@ docker load < monapi.tar
 
 #### 🚪 Option 2: Exposer le registre
 Expose ton registre en ajoutant un port réseau partagé ou en configurant un proxy (ex. Nginx) pour que les nodes du cluster puissent accéder à `host.docker.internal:5000` ou à une IP publique locale.
-
----
-
-💡 Tu veux que je t’aide à rendre ton registre accessible à Minikube ou à kind ? Je peux te guider pas à pas selon ton environnement. Fais-moi signe 😄
-
-```
 
 docker save localhost:5000/monapi > monapi.tar
 # Puis sur le node :
