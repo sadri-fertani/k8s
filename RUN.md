@@ -1,5 +1,3 @@
-[[TOC]]
-
 # N.B
 Pour qu'un service soit accessible que depuis l’intérieur du cluster, alors il faut remplacer le type NodePort.
 Si le type n'est pas defenit, alors il sera ClusterIP : accessible seulement à l'inmterieur du cluster.
