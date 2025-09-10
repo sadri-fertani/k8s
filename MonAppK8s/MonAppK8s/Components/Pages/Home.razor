@@ -82,6 +82,6 @@ else
     private async Task VerifAsync()
     {
         retrievedValue = await RedisService.GetValueAsync("ma-cle");
-        await RedisService.SetValueAsync("ma-cle", DateTime.Now.ToString());
+        await RedisService.SetValueAsync("ma-cle", DateTimeOffset.Now.ToString());
     }
 }
