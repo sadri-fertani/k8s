@@ -14,6 +14,12 @@ spec:
               kubernetes.io/metadata.name: default
         - namespaceSelector:
             matchLabels:
+              kubernetes.io/metadata.name: redis
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kafka
+        - namespaceSelector:
+            matchLabels:
               name: api-space
         - namespaceSelector:
             matchLabels:

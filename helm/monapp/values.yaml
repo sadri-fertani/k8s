@@ -26,6 +26,6 @@ env:
   - name: "API2_URL"
     value: "http://monapi2-service.api-space.svc.cluster.local"
   - name: "REDIS_URL"
-    value: "redis.default.svc.cluster.local:6379"
+    value: "redis-master.redis.svc.cluster.local:6379"
 
 resources: {}
